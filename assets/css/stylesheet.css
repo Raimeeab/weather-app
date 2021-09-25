@@ -72,4 +72,13 @@ a {
 button {
     padding: 5px;
     border-radius: 5px;
+    margin-top: 0 auto;
+}
+
+input {
+    outline-color: var(--highlight-colour2);
+}
+
+.center-items {
+    margin: 0 auto;
 }
