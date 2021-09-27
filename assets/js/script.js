@@ -12,6 +12,8 @@ var cityPicked = document.querySelector("#cityPicked");
 var mainSearch = document.querySelector("#main-search");
 var CurrentWeather = document.querySelector("#currentWeather")
 var fiveDayContainer = document.querySelector("#fiveDayContainer");
+var forecastContainer = document.querySelector(".forecastContainer");
+var cityDisplayed;
 
 // -------------------- API key -----------------------------------------------
 var apiKey = 'ee6bc0db0b2e0a0c46117b224a3ee840'
@@ -37,7 +39,6 @@ setInterval(function(){
 // -------------------- Get Weather API -----------------------------------------
 function fetchWeather(event) {
     event.preventDefault();
-
     forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName.value}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((data)=>{
@@ -54,7 +55,8 @@ function weatherData(data) {
     .then((cityData) =>{    
         var iconUrl = `https://openweathermap.org/img/w/${cityData.current.weather[0].icon}.png`;
         iconVal.setAttribute("src", iconUrl);
-        cityPicked.textContent = cityName.value;
+        cityDisplayed = cityName.value
+        cityPicked.textContent = cityDisplayed.toUpperCase();
         tempVal.textContent= cityData.current.temp + " °C"
         windVal.textContent= cityData.current.wind_speed + " KM/H" 
         humidVal.textContent= cityData.current.humidity + " %"
@@ -64,8 +66,10 @@ function weatherData(data) {
 
 function fiveDayForecast(data) {
     console.log(data);
+    //reset forecastContainer to empty string to clear out previous searches
+    forecastContainer.innerHTML = "";
     for (var i = 6; i <=30; i+=6){
-        // creating a card
+        // create a weather card for each day 
         var weatherCard = document.createElement("div");
         var fiveDayData = document.createElement("ul");
         // var date = document.createElement("li");
@@ -75,7 +79,7 @@ function fiveDayForecast(data) {
         var humidData = document.createElement("li");
         var uviData = document.createElement("li");
 
-        // add content to the card from the data 
+        // retrieve weather data and assign to created elements
         // date.textContent = data.list.dt_txt
         // var iconsUrl = `https://openweathermap.org/img/w/${data.list.weather[0].icon}.png`
         // iconData.setAttribute("img", iconsUrl)
@@ -84,8 +88,7 @@ function fiveDayForecast(data) {
         humidData.textContent = "Humidty: " + data.list[i].main.humidity + " %"
         uviData.textContent = "UV Index: " + data.list[i].main.uvi
 
-        // append card to the div 
-        var forecastContainer = document.querySelector(".forecastContainer");
+        // append weather cards to the HTML div 
         forecastContainer.append(weatherCard);
         weatherCard.append(fiveDayData);
         // fiveDayData.appendChild(date);
@@ -100,11 +103,10 @@ function fiveDayForecast(data) {
 
 // -------------------- Event Listener -----------------------------------------
 locationEl.addEventListener("click", function(event){
-    var cityDisplayed = cityName.value;
+    cityDisplayed = cityName.value;
     if (cityDisplayed === ""){
         alert("you must choose a city");
     } else {
-        cityDisplayed = cityDisplayed.toUpperCase();
         fetchWeather(event);
         CurrentWeather.removeAttribute("class", "d-none");
         fiveDayContainer.removeAttribute("class","d-none");
