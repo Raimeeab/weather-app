@@ -1,16 +1,19 @@
-// -------------------- Global Variables ----------------------------
+// -------------------- Global Variables --------------------------------------
 var forecastData;
-var cityName = document.querySelector(".citySelected")
+var cityName = document.querySelector(".citySelected");
 var locationEl = document.querySelector(".location");
-var iconVal = document.querySelector("#icon")
+var locationEl2 = document.querySelector(".location2");
+var iconVal = document.querySelector("#icon");
 var tempVal = document.querySelector("#temp");
 var windVal = document.querySelector("#windsp");
 var humidVal = document.querySelector("#humid");
 var uviVal = document.querySelector("#uvi");
 var cityPicked = document.querySelector("#cityPicked");
-var mainSearch = document.querySelector(".main-search")
+var mainSearch = document.querySelector("#main-search");
+var CurrentWeather = document.querySelector("#currentWeather")
+var fiveDayContainer = document.querySelector("#fiveDayContainer");
 
-// -------------------- API key ----------------------------
+// -------------------- API key -----------------------------------------------
 var apiKey = 'ee6bc0db0b2e0a0c46117b224a3ee840'
 
 // -------------------- Display current date in vp ----------------------------
@@ -31,9 +34,9 @@ setInterval(function(){
     currentTime();
 },1000);
 
-// -------------------- Get Weather API ----------------------------
-function fetchWeather(data) {
-    data.preventDefault();
+// -------------------- Get Weather API -----------------------------------------
+function fetchWeather(event) {
+    event.preventDefault();
 
     forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName.value}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
@@ -49,9 +52,9 @@ function weatherData(data) {
     var oneCall = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((cityData) =>{    
-       var iconUrl = `https://openweathermap.org/img/w/${cityData.current.weather[0].icon}.png`;
-        cityPicked.textContent = cityName.value;
+        var iconUrl = `https://openweathermap.org/img/w/${cityData.current.weather[0].icon}.png`;
         iconVal.setAttribute("src", iconUrl);
+        cityPicked.textContent = cityName.value;
         tempVal.textContent= cityData.current.temp + " °C"
         windVal.textContent= cityData.current.wind_speed + " KM/H" 
         humidVal.textContent= cityData.current.humidity + " %"
@@ -65,6 +68,7 @@ function fiveDayForecast(data) {
         // creating a card
         var weatherCard = document.createElement("div");
         var fiveDayData = document.createElement("ul");
+        // var date = document.createElement("li");
         var iconData = document.createElement("li")
         var tempData = document.createElement("li");
         var windData = document.createElement("li");
@@ -72,6 +76,9 @@ function fiveDayForecast(data) {
         var uviData = document.createElement("li");
 
         // add content to the card from the data 
+        // date.textContent = data.list.dt_txt
+        // var iconsUrl = `https://openweathermap.org/img/w/${data.list.weather[0].icon}.png`
+        // iconData.setAttribute("img", iconsUrl)
         tempData.textContent = "Temprature: " + data.list[i].main.temp + " °C"
         windData.textContent = "Wind Speed: " + data.list[i].wind.speed+ " KM/H" 
         humidData.textContent = "Humidty: " + data.list[i].main.humidity + " %"
@@ -81,6 +88,7 @@ function fiveDayForecast(data) {
         var forecastContainer = document.querySelector(".forecastContainer");
         forecastContainer.append(weatherCard);
         weatherCard.append(fiveDayData);
+        // fiveDayData.appendChild(date);
         fiveDayData.appendChild(iconData);
         fiveDayData.appendChild(tempData);
         fiveDayData.appendChild(windData);
@@ -90,5 +98,16 @@ function fiveDayForecast(data) {
 };
 
 
+// -------------------- Event Listener -----------------------------------------
+locationEl.addEventListener("click", function(event){
+    var cityDisplayed = cityName.value;
+    if (cityDisplayed === ""){
+        alert("you must choose a city");
+    } else {
+        cityDisplayed = cityDisplayed.toUpperCase();
+        fetchWeather(event);
+        CurrentWeather.removeAttribute("class", "d-none");
+        fiveDayContainer.removeAttribute("class","d-none");
 
-locationEl.addEventListener("click", fetchWeather);
+    }
+});

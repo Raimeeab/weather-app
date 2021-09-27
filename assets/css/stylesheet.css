@@ -43,6 +43,8 @@ h2 {
 h3 {
     font-size: 2.5rem;
     text-align: center;
+    font-style: italic;
+    color: var(--highlight-colour);
 }
 
 h4 {
@@ -70,15 +72,34 @@ a {
 
 
 button {
-    padding: 5px;
+    padding: 9px;
     border-radius: 5px;
     margin-top: 0 auto;
+    background-color: var(--highlight-colour);
 }
 
 input {
+    border-radius: 2px;
     outline-color: var(--highlight-colour2);
+    border-color: var(--highlight-colour);
 }
 
-.center-items {
-    margin: 0 auto;
+footer {
+    position: relative;
+    top: 0;
+    bottom: 100;
+    /* Set the fixed height of the footer here */
+    text-align: center;
+    height: 60px; 
+}
+
+#main-search {
+    justify-content: space-around;
+}
+
+#current-weather {
+    padding: 20px;
+    margin: 10px;
+    background-color: var(--background-colour);
+    opacity: 10%;
 }

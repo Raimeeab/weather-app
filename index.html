@@ -20,72 +20,54 @@
     </head>
     <body>
         <br><br>
-        <header class="container">
-            <h1>Weather Forecast</h1>
+        <header class="container border-bottom">
+            <h1>Weather Dashboard</h1>
             <div class="d-flex flex-column align-items-center">
                 <div id="display-date"></div>
                 <div id="display-time">00:00:00</div>
             </div>
         </header>
         <br><br>
-        <div class="container-fluid">
-           <div class="row align-items-center main-search">
-               <div class="col-lg-3 pt-3 pb-3 center-items">
-                    <h3>Search for a city:</h3>
-                    <div class="input-group mb-3"> 
-                        <input class="input-group-append form-control-plaintext citySelected" type="text" placeholder="City name...">
-                        <button class="btn btn-dark location mx-auto" type="button">submit</button>
-                    </div>
-               </div>
-           </div>
-           <div class="d-none">
+        <div class="container">
+           <div class="d-flex" id="main-search">
                <aside>
                 <h3>Search for a city:</h3>
                 <div class="input-group mb-3"> 
-                    <input class="input-group-append form-control-plaintext citySelected" type="text" placeholder="City name...">
+                    <input class="input-group-append form-floating citySelected" type="text" placeholder="City name..">
                     <button class="btn btn-dark location mx-auto" type="button">submit</button>
                 </div>
                </aside>
-           </div>
-           <div class="container"> 
-               <h3 id="cityPicked"></h3>
+               <div class="d-none border rounded" id="currentWeather"> 
+                <h3 id="cityPicked"></h3>
                 <ul class="list-group list-group-flush list">
-                    <li>
-                        <img id="icon">
-                    </li>
-                    <li>
-                        Temprature: <span id="temp"></span>
-                    </li>
-                    <li>
-                        Wind: <span id="windsp"></span>
-                    </li>
-                    <li>
-                        Humidity: <span id="humid"></span>
-                    </li>
-                    <li>
-                        UV Index: <span id="uvi"></span>
-                    </li>
+                     <li>
+                         <img id="icon">
+                     </li>
+                     <li>
+                         Temprature: <span id="temp"></span>
+                     </li>
+                     <li>
+                         Wind Speed: <span id="windsp"></span>
+                     </li>
+                     <li>
+                         Humidity: <span id="humid"></span>
+                     </li>
+                     <li>
+                         UV Index: <span id="uvi"></span>
+                     </li>
                 </ul>
-        </div> 
-    </div> 
-
-</div> 
-
-<div class="mt-4 col-md-12"> 
-
-    <h4 class="mt-3 hide">5-Day Forecast:</h4>
-
-    <div class="d-flex forecastContainer"> 
-
-
-    </div> 
-</div> 
-</div> 
+            </div> 
         </div>
+        <div class="d-none" id="fiveDayContainer"> 
+            <h4>5-Day Forecast:</h4>
 
-        <!-- <footer>
+            <div class="d-flex justify-content-center forecastContainer"> 
+                <!-- 5 day forecast dynamically created in JS -->
+            </div> 
+        </div>  
+        <footer>
             <h6> &copy; RAIMEE ABBASSI [2021]</h6>
-        </footer> -->
+        </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
         <!-- <script src="/assets/js/config.js" asyn defer></script> -->
