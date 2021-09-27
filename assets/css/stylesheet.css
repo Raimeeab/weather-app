@@ -85,12 +85,12 @@ input {
 }
 
 footer {
-    position: relative;
-    top: 0;
-    bottom: 100;
-    /* Set the fixed height of the footer here */
+    position: absolute;
+    bottom: 0;
+    width: 90%;
+    height: 2.5rem;  
+    margin: 1.5rem;
     text-align: center;
-    height: 60px; 
 }
 
 #main-search {
