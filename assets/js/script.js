@@ -14,6 +14,7 @@ var CurrentWeather = document.querySelector("#currentWeather")
 var fiveDayContainer = document.querySelector("#fiveDayContainer");
 var forecastContainer = document.querySelector(".forecastContainer");
 var cityDisplayed;
+var searchHistory = document.querySelector(".searchHistory");
 
 // -------------------- API key -----------------------------------------------
 var apiKey = 'ee6bc0db0b2e0a0c46117b224a3ee840'
@@ -103,8 +104,15 @@ function fiveDayForecast(data) {
         fiveDayData.appendChild(humidData);
     }
 };
-// -------------------- Event Listener -----------------------------------------
+// -------------------- Local Storage ------------------------------------------
+function searchHistory() {
+    // create elements to store user search history
+    for( var i = 0; i<10; i++){
+        
+    }
 
+
+};
 
 // -------------------- Event Listener -----------------------------------------
 locationEl.addEventListener("click", function(event){
