@@ -68,37 +68,42 @@ function fiveDayForecast(data) {
     console.log(data);
     //reset forecastContainer to empty string to clear out previous searches
     forecastContainer.innerHTML = "";
-    for (var i = 6; i <=30; i+=6){
+    for (var i = 8; i <=40; i+=8){
         // create a weather card for each day 
         var weatherCard = document.createElement("div");
         var fiveDayData = document.createElement("ul");
-        // var date = document.createElement("li");
-        var iconData = document.createElement("li")
+        var date = document.createElement("li");
+        var iconData = document.createElement("li");
+        var iconImg = document.createElement("img");
         var tempData = document.createElement("li");
         var windData = document.createElement("li");
         var humidData = document.createElement("li");
-        var uviData = document.createElement("li");
 
         // retrieve weather data and assign to created elements
-        // date.textContent = data.list.dt_txt
-        // var iconsUrl = `https://openweathermap.org/img/w/${data.list.weather[0].icon}.png`
-        // iconData.setAttribute("img", iconsUrl)
+        var dateTimeInfo = data.list[i].dt_txt;
+        console.log(typeof data.list[i].dt_txt);
+        dateInfo = dateTimeInfo.split();
+        console.log(dateInfo);
+
+        date.textContent = "Date: " + dateInfo[0];
+        var iconsUrl = `https://openweathermap.org/img/w/${data.list[i].weather[0].icon}.png`
+        iconImg.setAttribute("src", iconsUrl);
         tempData.textContent = "Temprature: " + data.list[i].main.temp + " °C"
-        windData.textContent = "Wind Speed: " + data.list[i].wind.speed+ " KM/H" 
+        windData.textContent = "Wind Speed: " + data.list[i].wind.speed + " KM/H" 
         humidData.textContent = "Humidty: " + data.list[i].main.humidity + " %"
-        uviData.textContent = "UV Index: " + data.list[i].main.uvi
 
         // append weather cards to the HTML div 
         forecastContainer.append(weatherCard);
+        iconData.appendChild(iconImg);
         weatherCard.append(fiveDayData);
-        // fiveDayData.appendChild(date);
+        fiveDayData.appendChild(date);
         fiveDayData.appendChild(iconData);
         fiveDayData.appendChild(tempData);
         fiveDayData.appendChild(windData);
         fiveDayData.appendChild(humidData);
-        fiveDayData.appendChild(uviData);
     }
 };
+// -------------------- Event Listener -----------------------------------------
 
 
 // -------------------- Event Listener -----------------------------------------
