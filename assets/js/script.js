@@ -2,7 +2,6 @@
 var forecastData;
 var cityName = document.querySelector(".citySelected");
 var locationEl = document.querySelector(".location");
-var locationEl2 = document.querySelector(".location2");
 var iconVal = document.querySelector("#icon");
 var tempVal = document.querySelector("#temp");
 var windVal = document.querySelector("#windsp");
@@ -19,7 +18,7 @@ var searchHistoryData = [];
 var cityDisplayed;
 
 // -------------------- API key -----------------------------------------------
-var apiKey = 'ee6bc0db0b2e0a0c46117b224a3ee840'
+var apiKey = 'ee6bc0db0b2e0a0c46117b224a3ee840';
 
 // -------------------- Display current date in vp ----------------------------
 var currentDate = document.querySelector("#display-date");
@@ -54,6 +53,24 @@ function fetchWeather(event) {
 
 };
 
+function fetchWeatherForHistory(event) {
+    event.preventDefault();
+    console.log("event.target");
+    console.log(event.target);
+    console.log("cityNameInButton");
+    console.log(event.target.getAttribute("data-search"));
+    // Get 5 day/ 3 hour forecast API, then run following functions 
+    var cityNameFromHistory = event.target.getAttribute("data-search");
+    forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityNameFromHistory}&appid=${apiKey}&units=metric`)
+    .then(response => response.json())
+    .then((data)=>{
+        console.log(data);
+        weatherData(data);
+        fiveDayForecast(data);
+    })
+
+};
+
 function weatherData(data) {
     // Get current day(one call) forecast API
     var oneCall = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
@@ -71,6 +88,8 @@ function weatherData(data) {
         uviVal.textContent = uvData
     });
 };
+
+
 
 // Assign a colour to uvIndex from data 
 function getUviColour(uvData) {
@@ -139,12 +158,9 @@ function renderSearchHistory() {
         // `data-search` allows access to city name when click handler is invoked
         btn.setAttribute("data-search", searchHistoryData[i]);
         btn.textContent = searchHistoryData[i];
-        btn.setAttribute("class","historyButton");
+        btn.setAttribute("class", "historyButton");
         searchHistoryEl.append(btn);
     };
-
-    
-  
 };
 
 function handleSearchHistoryClick(event) {
@@ -163,15 +179,16 @@ locationEl.addEventListener("click", function(event){
         fetchWeather(event);
         CurrentWeather.removeAttribute("class", "d-none");
         fourDayContainer.removeAttribute("class","d-none");
-        searchHistoryData.push(cityDisplayed);
         searchHistoryContainer.removeAttribute("class","d-none");
         localStorage.setItem("history", JSON.stringify(searchHistoryData));
+        if(!searchHistoryData.includes(cityName.value) ){
+            searchHistoryData.push(cityDisplayed);
+        };
         renderSearchHistory();
     }
 });
 
 searchHistoryEl.addEventListener("click", function(event){
-    searchHistoryData;
     fetchWeather(event);
 });
 initSearchHistory();
