@@ -46,39 +46,41 @@ function fetchWeather(event) {
     forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName.value}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((data)=>{
-        console.log(data);
-        weatherData(data);
-        fiveDayForecast(data);
+        // Generate current weather
+        weatherData(data, cityDisplayed);
+        // Generate 4 day forescast
+        fourDayForecast(data);
     })
 
 };
 
+// Generates weather API from the Previous Search buttons
 function fetchWeatherForHistory(event) {
     event.preventDefault();
-    console.log("event.target");
-    console.log(event.target);
-    console.log("cityNameInButton");
-    console.log(event.target.getAttribute("data-search"));
     // Get 5 day/ 3 hour forecast API, then run following functions 
     var cityNameFromHistory = event.target.getAttribute("data-search");
     forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityNameFromHistory}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((data)=>{
-        console.log(data);
-        weatherData(data);
-        fiveDayForecast(data);
+        weatherData(data, cityNameFromHistory);
+        fourDayForecast(data);
     })
 
 };
 
-function weatherData(data) {
+function weatherData(data, cityDisplayed) {
+    
+    // If no city name is written in input or search button is pressed, stop the function
+    if (cityDisplayed === ""){
+        return "no city selected"
+    };
+    
     // Get current day(one call) forecast API
     var oneCall = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((cityData) =>{    
         var iconUrl = `https://openweathermap.org/img/w/${cityData.current.weather[0].icon}.png`;
         iconVal.setAttribute("src", iconUrl);
-        cityDisplayed = cityName.value
         cityPicked.textContent = cityDisplayed.toUpperCase();
         tempVal.textContent = cityData.current.temp + " °C"
         windVal.textContent = cityData.current.wind_speed + " KM/H" 
@@ -106,7 +108,7 @@ function getUviColour(uvData) {
     };
 }
 
-function fiveDayForecast(data) {
+function fourDayForecast(data) {
     //reset forecastContainer to empty string to clear out previous searches
     forecastContainer.innerHTML = "";
     for (var i = 8; i <40; i+=8){
@@ -180,15 +182,19 @@ locationEl.addEventListener("click", function(event){
         CurrentWeather.removeAttribute("class", "d-none");
         fourDayContainer.removeAttribute("class","d-none");
         searchHistoryContainer.removeAttribute("class","d-none");
-        localStorage.setItem("history", JSON.stringify(searchHistoryData));
         if(!searchHistoryData.includes(cityName.value) ){
             searchHistoryData.push(cityDisplayed);
         };
+        localStorage.setItem("history", JSON.stringify(searchHistoryData));
         renderSearchHistory();
     }
 });
 
 searchHistoryEl.addEventListener("click", function(event){
-    fetchWeather(event);
+    CurrentWeather.removeAttribute("class", "d-none");
+    fourDayContainer.removeAttribute("class","d-none");
+    searchHistoryContainer.removeAttribute("class","d-none");
+    fetchWeatherForHistory(event);
 });
+
 initSearchHistory();
