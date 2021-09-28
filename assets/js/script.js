@@ -60,11 +60,26 @@ function weatherData(data) {
         iconVal.setAttribute("src", iconUrl);
         cityDisplayed = cityName.value
         cityPicked.textContent = cityDisplayed.toUpperCase();
-        tempVal.textContent= cityData.current.temp + " °C"
-        windVal.textContent= cityData.current.wind_speed + " KM/H" 
-        humidVal.textContent= cityData.current.humidity + " %"
-        uviVal.textContent= cityData.current.uvi
-    })
+        tempVal.textContent = cityData.current.temp + " °C"
+        windVal.textContent = cityData.current.wind_speed + " KM/H" 
+        humidVal.textContent = cityData.current.humidity + " %"
+        var uvData = cityData.current.uvi
+        uviVal.textContent = uvData
+    });
+};
+
+function getUviColour(uvData) {
+    if (0 <= uvData && uvData < 2) {
+        uviVal.setAttribute("class","low");
+    } else if (2 <= uvData && uvData < 6) {
+        uviVal.setAttribute("class","moderate");
+    } else if (6 <= uvData && uvData < 7){
+        uviVal.setAttribute("class","high");
+    } else if (7 <= uvData && uvData < 11){
+        uviVal.setAttribute("class","very-high");
+    } else {
+        uniVal.setAttribute("class","extreme");
+    };
 }
 
 function fiveDayForecast(data) {
@@ -119,8 +134,7 @@ function renderSearchHistory() {
           // `data-search` allows access to city name when click handler is invoked
           btn.setAttribute('data-search', searchHistoryData[i]);
           btn.textContent = searchHistoryData[i];
-          btn.setAttribute("class","btn");
-          btn.setAttribute("class","btn-dark");
+          btn.setAttribute("class","historyButton");
           searchHistoryEl.append(btn);
         };
 

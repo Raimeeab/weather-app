@@ -37,11 +37,11 @@ h1 {
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 3rem;
 }
 
 h3 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-style: italic;
 }
 
@@ -69,11 +69,11 @@ a {
 }
 
 
+/* ----- Element Selectors ----- */
 button {
-    padding: 9px;
-    margin-top: 0 auto;
-    width: 250px;
+    color: var(--background-colour);
 }
+
 
 input {
     border-radius: 2px;
@@ -81,10 +81,30 @@ input {
     border-color: var(--highlight-colour);
 }
 
-.sbmtBtn {
-    width:100px;
+/* ----- Class Selectors ----- */
+.historyButton {
+    padding: 9px;
+    margin-top: 0 auto;
+    width: 250px;
+    background-color: var(--highlight-colour);
+    border-radius: 10px;
+    border-color: var(--background-colour);
 }
 
+.sbmtBtn {
+    width:100px;
+    background-color: var(--highlight-colour);
+}
+
+.forecastContainer,
+.currentDay{
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 25px;
+    font-weight: bolder;
+    border-radius: 20px;
+}
+
+/* ----- ID Selectors ----- */
 #main-search {
     justify-content: space-around;
 }
@@ -96,7 +116,22 @@ input {
     opacity: 10%;
 }
 
-.forecastContainer{
-    background-color: #ffffff;
-    border-radius: 20px;
+.low {
+    background-color: #d4f2bc;
+}
+
+.moderate{
+    background-color: #f9f5c3;
+}
+
+.high{
+    background-color: #fde1bf;
+}
+
+.very-high {
+    background-color: #f2b9c0;
+}
+
+.extreme {
+    background-color: #e0dbf9;
 }
