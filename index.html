@@ -7,13 +7,16 @@
         <title>Weather Dashboard</title>
         <meta name="description" content="Global weather app by city search for different cities to find out local weather conditions from current day to five days onward ">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- BootStrap CSS -->
         <link 
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" 
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous"
         />
+        <!-- Google Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!-- Moment.js -->
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;1,400;1,600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="./assets/css/reset.css">
         <link rel="stylesheet" href="./assets/css/stylesheet.css">
@@ -30,13 +33,20 @@
         <br><br>
         <div class="container">
            <div class="d-flex" id="main-search">
-               <aside>
+               <div>
                 <h3 class="text-center">Search for a city:</h3>
                 <div class="input-group mb-3"> 
                     <input class="input-group-append form-floating citySelected" type="text" placeholder="City name..">
-                    <button class="btn btn-dark location mx-auto sbmtBtn" type="button">submit</button>
+                    <button class="btn location mx-auto sbmtBtn" type="button">submit</button>
                 </div>
-               </aside>
+                <div class="text-center" id="searchHistoryContainer">
+                    <h3>Previous Searches:</h3>
+                    <div class="searchHistory d-flex flex-column-reverse justify-content-sm-end">
+                        <!-- column-reverse ensures the most recent search is at the top -->
+                        <!-- Saved searches dynamically created in JS -->
+                    </div>
+                </div>
+               </div>
                <div class="d-none border rounded" id="currentWeather"> 
                 <h3 id="cityPicked"></h3>
                 <p>Today</p>
@@ -59,23 +69,18 @@
                 </ul>
             </div> 
         </div>
-        <div class="d-none" id="fourDayContainer"> 
-            <h3>4-Day Forecast:</h3>
+        <br><br>
+        <div class="d-none" id="fiveDayContainer"> 
+            <h3>5-Day Forecast:</h3>
 
             <div class="d-flex justify-content-center forecastContainer"> 
                 <!-- 5 day forecast dynamically created in JS -->
             </div> 
         </div>  
         <br><br>
-        <div class = "d-flex flex-column align-items-start" id="searchHistoryContainer">
-            <h3>Previous Searches:</h3>
-            <div class="searchHistory d-flex flex-column-reverse justify-content-sm-end">
-                <!-- Saved searches dynamically created in JS -->
-            </div>
-        </div>
+        <!-- jQuery -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-        <!-- <script src="/assets/js/config.js" asyn defer></script> -->
         <script src="./assets/js/script.js" async defer></script>
     </body>
 </html>

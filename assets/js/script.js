@@ -10,7 +10,7 @@ var uviVal = document.querySelector("#uvi");
 var cityPicked = document.querySelector("#cityPicked");
 var mainSearch = document.querySelector("#main-search");
 var CurrentWeather = document.querySelector("#currentWeather")
-var fourDayContainer = document.querySelector("#fourDayContainer");
+var fiveDayContainer = document.querySelector("#fiveDayContainer");
 var forecastContainer = document.querySelector(".forecastContainer");
 var searchHistoryContainer = document.querySelector("#searchHistoryContainer")
 var searchHistoryEl = document.querySelector(".searchHistory");
@@ -49,7 +49,7 @@ function fetchWeather(event) {
         // Generate current weather
         weatherData(data, cityDisplayed);
         // Generate 4 day forescast
-        fourDayForecast(data);
+        fiveDayForecast(data);
     })
 
 };
@@ -61,9 +61,9 @@ function fetchWeatherForHistory(event) {
     var cityNameFromHistory = event.target.getAttribute("data-search");
     forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityNameFromHistory}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
-    .then((data)=>{
+    .then((data) => {
         weatherData(data, cityNameFromHistory);
-        fourDayForecast(data);
+        fiveDayForecast(data);
     })
 
 };
@@ -79,13 +79,17 @@ function weatherData(data, cityDisplayed) {
     var oneCall = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((cityData) =>{    
+        // Retrieve Icon image from API
         var iconUrl = `https://openweathermap.org/img/w/${cityData.current.weather[0].icon}.png`;
+        // Set attribute to attach to <img>
         iconVal.setAttribute("src", iconUrl);
+        // Display content in vp
         cityPicked.textContent = cityDisplayed.toUpperCase();
         tempVal.textContent = cityData.current.temp + " °C"
         windVal.textContent = cityData.current.wind_speed + " KM/H" 
         humidVal.textContent = cityData.current.humidity + " %"
         var uvData = cityData.current.uvi
+        // Assign correct UVI colour based on data
         getUviColour(uvData);
         uviVal.textContent = uvData
     });
@@ -108,11 +112,11 @@ function getUviColour(uvData) {
     };
 }
 
-function fourDayForecast(data) {
+function fiveDayForecast(data) {
     //reset forecastContainer to empty string to clear out previous searches
     forecastContainer.innerHTML = "";
-    for (var i = 8; i <40; i+=8){
-        // create a weather card for each day 
+    for (var i = 0; i <40; i+=8){
+        // Create a weather card for each day 
         var weatherCard = document.createElement("div");
         var fiveDayData = document.createElement("ul");
         var date = document.createElement("li");
@@ -122,7 +126,7 @@ function fourDayForecast(data) {
         var windData = document.createElement("li");
         var humidData = document.createElement("li");
 
-        // retrieve weather data and assign to created elements
+        // Retrieve weather data and assign to created elements
         var dateTimeInfo = data.list[i].dt_txt;
         dateInfo = dateTimeInfo.split(" ");
         date.textContent = "Date: " + dateInfo[0];
@@ -132,7 +136,7 @@ function fourDayForecast(data) {
         windData.textContent = "Wind Speed: " + data.list[i].wind.speed + " KM/H" 
         humidData.textContent = "Humidty: " + data.list[i].main.humidity + " %"
 
-        // append weather cards to the HTML div 
+        // Append weather cards to the HTML div, display in vp 
         forecastContainer.append(weatherCard);
         iconData.appendChild(iconImg);
         weatherCard.append(fiveDayData);
@@ -150,10 +154,10 @@ renderSearchHistory();
 };
 
 function renderSearchHistory() {
+    // Ensures no double-ups occur when fetch weather functions are called more than once
     searchHistoryEl.innerHTML = "";
 
-
-    // Start at end of history array and count down to show the most recent at the top.
+    // Create a button for each localStorage item
     for (var i = 0; i < searchHistoryData.length; i++) {
         var btn = document.createElement("button");
     
@@ -167,22 +171,27 @@ function renderSearchHistory() {
 
 function handleSearchHistoryClick(event) {
     var btn = event.target;
+    // Identifies what search buttons have data-search element
     var search = btn.getAttribute("data-search");
     fetchCoords(search);
 };
 
-// -------------------- Event Listener -----------------------------------------
+// -------------------- Event Listeners -----------------------------------------
 locationEl.addEventListener("click", function(event){
+    // When submit button is clicked:
     cityDisplayed = cityName.value;
 
     if (cityDisplayed === ""){
         alert("you must choose a city");
     } else {
+        // Function only runs when city name is written in input
         fetchWeather(event);
+        // Remove the display-none classes on hidden sections
         CurrentWeather.removeAttribute("class", "d-none");
-        fourDayContainer.removeAttribute("class","d-none");
+        fiveDayContainer.removeAttribute("class","d-none");
         searchHistoryContainer.removeAttribute("class","d-none");
         if(!searchHistoryData.includes(cityName.value) ){
+            // Ensures no double ups occur in localStorage
             searchHistoryData.push(cityDisplayed);
         };
         localStorage.setItem("history", JSON.stringify(searchHistoryData));
@@ -192,9 +201,10 @@ locationEl.addEventListener("click", function(event){
 
 searchHistoryEl.addEventListener("click", function(event){
     CurrentWeather.removeAttribute("class", "d-none");
-    fourDayContainer.removeAttribute("class","d-none");
+    fiveDayContainer.removeAttribute("class","d-none");
     searchHistoryContainer.removeAttribute("class","d-none");
     fetchWeatherForHistory(event);
 });
 
+// Gets items from localStorage
 initSearchHistory();

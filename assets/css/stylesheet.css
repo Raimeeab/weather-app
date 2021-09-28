@@ -70,10 +70,6 @@ a {
 
 
 /* ----- Element Selectors ----- */
-button {
-    color: var(--background-colour);
-}
-
 
 input {
     border-radius: 2px;
@@ -94,6 +90,12 @@ input {
 .sbmtBtn {
     width:100px;
     background-color: var(--highlight-colour);
+    color: var(--background-colour);
+}
+
+.sbmtBtn:hover,
+.btn:hover {
+    background-color: var(--highlight-colour2);
 }
 
 .forecastContainer,
@@ -104,6 +106,7 @@ input {
     border-radius: 20px;
 }
 
+/* UV colour codes */
 .low {
     background-color: #d4f2bc;
 }
