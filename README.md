@@ -2,7 +2,7 @@
 
 # Weather Dashboard
 
-
+![weather-dashboard-demo](https://github.com/Raimeeab/weather-dashboard/blob/main/assets/images/weather-dashboard-demo.gif)
 
 ## Description 
 
