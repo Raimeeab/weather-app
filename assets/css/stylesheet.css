@@ -104,18 +104,6 @@ input {
     border-radius: 20px;
 }
 
-/* ----- ID Selectors ----- */
-#main-search {
-    justify-content: space-around;
-}
-
-#current-weather {
-    padding: 20px;
-    margin: 10px;
-    background-color: var(--background-colour);
-    opacity: 10%;
-}
-
 .low {
     background-color: #d4f2bc;
 }
@@ -134,4 +122,21 @@ input {
 
 .extreme {
     background-color: #e0dbf9;
+}
+
+/* ----- ID Selectors ----- */
+#main-search {
+    justify-content: space-around;
+}
+
+#current-weather {
+    padding: 20px;
+    margin: 10px;
+    background-color: var(--background-colour);
+    opacity: 10%;
+}
+
+#uvi {
+    padding: 5px;
+    border-radius: 5px;
 }

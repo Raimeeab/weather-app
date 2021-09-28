@@ -34,6 +34,7 @@ function currentTime() {
     currentMoment.textContent = time
 };
 
+// run currentTime function at page reload and rerun every second
 currentTime();
 setInterval(function(){
     currentTime();
@@ -42,6 +43,7 @@ setInterval(function(){
 // -------------------- Get Weather API -----------------------------------------
 function fetchWeather(event) {
     event.preventDefault();
+    // Get 5 day/ 3 hour forecast API, then run following functions 
     forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName.value}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((data)=>{
@@ -53,6 +55,7 @@ function fetchWeather(event) {
 };
 
 function weatherData(data) {
+    // Get current day(one call) forecast API
     var oneCall = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((cityData) =>{    
@@ -64,10 +67,12 @@ function weatherData(data) {
         windVal.textContent = cityData.current.wind_speed + " KM/H" 
         humidVal.textContent = cityData.current.humidity + " %"
         var uvData = cityData.current.uvi
+        getUviColour(uvData);
         uviVal.textContent = uvData
     });
 };
 
+// Assign a colour to uvIndex from data 
 function getUviColour(uvData) {
     if (0 <= uvData && uvData < 2) {
         uviVal.setAttribute("class","low");
@@ -124,27 +129,27 @@ renderSearchHistory();
 };
 
 function renderSearchHistory() {
-    searchHistoryEl.innerHTML = '';
+    searchHistoryEl.innerHTML = "";
 
-    if (searchHistoryData.length >= 1) {
-        // Start at end of history array and count down to show the most recent at the top.
-        for (var i = 0; i < searchHistoryData.length; i++) {
-          var btn = document.createElement('button');
-      
-          // `data-search` allows access to city name when click handler is invoked
-          btn.setAttribute('data-search', searchHistoryData[i]);
-          btn.textContent = searchHistoryData[i];
-          btn.setAttribute("class","historyButton");
-          searchHistoryEl.append(btn);
-        };
 
+    // Start at end of history array and count down to show the most recent at the top.
+    for (var i = 0; i < searchHistoryData.length; i++) {
+        var btn = document.createElement("button");
+    
+        // `data-search` allows access to city name when click handler is invoked
+        btn.setAttribute("data-search", searchHistoryData[i]);
+        btn.textContent = searchHistoryData[i];
+        btn.setAttribute("class","historyButton");
+        searchHistoryEl.append(btn);
     };
+
+    
   
 };
 
 function handleSearchHistoryClick(event) {
     var btn = event.target;
-    var search = btn.getAttribute('data-search');
+    var search = btn.getAttribute("data-search");
     fetchCoords(search);
 };
 
