@@ -11,7 +11,7 @@ var uviVal = document.querySelector("#uvi");
 var cityPicked = document.querySelector("#cityPicked");
 var mainSearch = document.querySelector("#main-search");
 var CurrentWeather = document.querySelector("#currentWeather")
-var fiveDayContainer = document.querySelector("#fiveDayContainer");
+var fourDayContainer = document.querySelector("#fourDayContainer");
 var forecastContainer = document.querySelector(".forecastContainer");
 var searchHistoryContainer = document.querySelector("#searchHistoryContainer")
 var searchHistoryEl = document.querySelector(".searchHistory");
@@ -110,16 +110,22 @@ renderSearchHistory();
 
 function renderSearchHistory() {
     searchHistoryEl.innerHTML = '';
+
+    if (searchHistoryData.length >= 1) {
+        // Start at end of history array and count down to show the most recent at the top.
+        for (var i = 0; i < searchHistoryData.length; i++) {
+          var btn = document.createElement('button');
+      
+          // `data-search` allows access to city name when click handler is invoked
+          btn.setAttribute('data-search', searchHistoryData[i]);
+          btn.textContent = searchHistoryData[i];
+          btn.setAttribute("class","btn");
+          btn.setAttribute("class","btn-dark");
+          searchHistoryEl.append(btn);
+        };
+
+    };
   
-    // Start at end of history array and count down to show the most recent at the top.
-    for (var i = 1; i <= searchHistoryData.length; i++) {
-      var btn = document.createElement('button');
-  
-      // `data-search` allows access to city name when click handler is invoked
-      btn.setAttribute('data-search', searchHistoryData[i]);
-      btn.textContent = searchHistoryData[i];
-      searchHistoryEl.append(btn);
-    }
 };
 
 function handleSearchHistoryClick(event) {
@@ -137,7 +143,7 @@ locationEl.addEventListener("click", function(event){
     } else {
         fetchWeather(event);
         CurrentWeather.removeAttribute("class", "d-none");
-        fiveDayContainer.removeAttribute("class","d-none");
+        fourDayContainer.removeAttribute("class","d-none");
         searchHistoryData.push(cityDisplayed);
         searchHistoryContainer.removeAttribute("class","d-none");
         localStorage.setItem("history", JSON.stringify(searchHistoryData));

@@ -81,6 +81,10 @@ input {
     border-color: var(--highlight-colour);
 }
 
+.sbmtBtn {
+    width:100px;
+}
+
 #main-search {
     justify-content: space-around;
 }
@@ -90,4 +94,9 @@ input {
     margin: 10px;
     background-color: var(--background-colour);
     opacity: 10%;
+}
+
+.forecastContainer{
+    background-color: #ffffff;
+    border-radius: 20px;
 }
