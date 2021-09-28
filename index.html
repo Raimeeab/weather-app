@@ -31,7 +31,7 @@
         <div class="container">
            <div class="d-flex" id="main-search">
                <aside>
-                <h3>Search for a city:</h3>
+                <h3 class="text-center">Search for a city:</h3>
                 <div class="input-group mb-3"> 
                     <input class="input-group-append form-floating citySelected" type="text" placeholder="City name..">
                     <button class="btn btn-dark location mx-auto" type="button">submit</button>
@@ -59,15 +59,17 @@
             </div> 
         </div>
         <div class="d-none" id="fiveDayContainer"> 
-            <h4>4-Day Forecast:</h4>
+            <h3>4-Day Forecast:</h3>
 
             <div class="d-flex justify-content-center forecastContainer"> 
                 <!-- 5 day forecast dynamically created in JS -->
             </div> 
         </div>  
-        <div class="searchHistory">
-            <h4>Previous Searches</h4>
-            <!-- Saved searches dynamically created in JS -->
+        <div class = "d-flex flex-column align-items-start" id="searchHistoryContainer">
+            <h3>Previous Searches:</h3>
+            <div class="searchHistory d-flex flex-column-reverse justify-content-sm-end">
+                <!-- Saved searches dynamically created in JS -->
+            </div>
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>

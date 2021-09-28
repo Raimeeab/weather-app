@@ -42,9 +42,7 @@ h2 {
 
 h3 {
     font-size: 2.5rem;
-    text-align: center;
     font-style: italic;
-    color: var(--highlight-colour);
 }
 
 h4 {
@@ -73,9 +71,8 @@ a {
 
 button {
     padding: 9px;
-    border-radius: 5px;
     margin-top: 0 auto;
-    background-color: var(--highlight-colour);
+    width: 250px;
 }
 
 input {

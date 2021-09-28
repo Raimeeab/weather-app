@@ -13,8 +13,9 @@ var mainSearch = document.querySelector("#main-search");
 var CurrentWeather = document.querySelector("#currentWeather")
 var fiveDayContainer = document.querySelector("#fiveDayContainer");
 var forecastContainer = document.querySelector(".forecastContainer");
-var searchHistoryContainer = document.querySelector(".searchHistory");
-var searchHistoryData = {};
+var searchHistoryContainer = document.querySelector("#searchHistoryContainer")
+var searchHistoryEl = document.querySelector(".searchHistory");
+var searchHistoryData = [];
 var cityDisplayed;
 
 // -------------------- API key -----------------------------------------------
@@ -67,10 +68,9 @@ function weatherData(data) {
 }
 
 function fiveDayForecast(data) {
-    console.log(data);
     //reset forecastContainer to empty string to clear out previous searches
     forecastContainer.innerHTML = "";
-    for (var i = 8; i <=40; i+=8){
+    for (var i = 8; i <40; i+=8){
         // create a weather card for each day 
         var weatherCard = document.createElement("div");
         var fiveDayData = document.createElement("ul");
@@ -104,26 +104,26 @@ function fiveDayForecast(data) {
 };
 // -------------------- Local Storage ------------------------------------------
 function initSearchHistory() { 
-searchHistoryData = JSON.parse(localStorage.getItem("history"));
+searchHistoryData = JSON.parse(localStorage.getItem("history")) || [];
+renderSearchHistory();
 };
 
 function renderSearchHistory() {
-    searchHistoryDataContainer.innerHTML = '';
+    searchHistoryEl.innerHTML = '';
   
     // Start at end of history array and count down to show the most recent at the top.
-    for (var i = 0; i >= searchHistoryData.length; i++) {
+    for (var i = 1; i <= searchHistoryData.length; i++) {
       var btn = document.createElement('button');
   
       // `data-search` allows access to city name when click handler is invoked
       btn.setAttribute('data-search', searchHistoryData[i]);
       btn.textContent = searchHistoryData[i];
-      searchHistoryContainer.append(btn);
+      searchHistoryEl.append(btn);
     }
 };
 
-function handleSearchHistoryClick(e) {
-
-    var btn = e.target;
+function handleSearchHistoryClick(event) {
+    var btn = event.target;
     var search = btn.getAttribute('data-search');
     fetchCoords(search);
 };
@@ -131,17 +131,22 @@ function handleSearchHistoryClick(e) {
 // -------------------- Event Listener -----------------------------------------
 locationEl.addEventListener("click", function(event){
     cityDisplayed = cityName.value;
+
     if (cityDisplayed === ""){
         alert("you must choose a city");
     } else {
         fetchWeather(event);
         CurrentWeather.removeAttribute("class", "d-none");
         fiveDayContainer.removeAttribute("class","d-none");
-        // push cityName into searchHistoryData
         searchHistoryData.push(cityDisplayed);
+        searchHistoryContainer.removeAttribute("class","d-none");
         localStorage.setItem("history", JSON.stringify(searchHistoryData));
+        renderSearchHistory();
     }
 });
 
-searchHistoryContainer.addEventListener("click", searchHistoryData);
+searchHistoryEl.addEventListener("click", function(event){
+    searchHistoryData;
+    fetchWeather(event);
+});
 initSearchHistory();
