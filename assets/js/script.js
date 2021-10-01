@@ -19,6 +19,8 @@ var cityDisplayed;
 
 // -------------------- API key -----------------------------------------------
 var apiKey = 'ee6bc0db0b2e0a0c46117b224a3ee840';
+var fiveDayApi = 'https://api.openweathermap.org/data/2.5/forecast?q=';
+var oneCallApi = 'https://api.openweathermap.org/data/2.5/onecall?lat=';
 
 // -------------------- Display current date in vp ----------------------------
 var currentDate = document.querySelector("#display-date");
@@ -43,7 +45,7 @@ setInterval(function(){
 function fetchWeather(event) {
     event.preventDefault();
     // Get 5 day/ 3 hour forecast API, then run following functions 
-    forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName.value}&appid=${apiKey}&units=metric`)
+    forecastData = fetch(`${fiveDayApi}${cityName.value}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((data)=>{
         // Generate current weather
@@ -59,7 +61,7 @@ function fetchWeatherForHistory(event) {
     event.preventDefault();
     // Get 5 day/ 3 hour forecast API, then run following functions 
     var cityNameFromHistory = event.target.getAttribute("data-search");
-    forecastData = fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityNameFromHistory}&appid=${apiKey}&units=metric`)
+    forecastData = fetch(`${fiveDayApi}${cityNameFromHistory}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((data) => {
         weatherData(data, cityNameFromHistory);
@@ -76,7 +78,7 @@ function weatherData(data, cityDisplayed) {
     };
     
     // Get current day(one call) forecast API
-    var oneCall = fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
+    var oneCall = fetch(`${oneCallApi}${data.city.coord.lat}&lon=${data.city.coord.lon}&appid=${apiKey}&units=metric`)
     .then(response => response.json())
     .then((cityData) =>{    
         // Retrieve Icon image from API
@@ -186,7 +188,7 @@ locationEl.addEventListener("click", function(event){
     } else {
         // Function only runs when city name is written in input
         fetchWeather(event);
-        // Remove the display-none classes on hidden sections
+        // Remove display-none classes on hidden sections
         CurrentWeather.removeAttribute("class", "d-none");
         fiveDayContainer.removeAttribute("class","d-none");
         searchHistoryContainer.removeAttribute("class","d-none");
@@ -200,9 +202,11 @@ locationEl.addEventListener("click", function(event){
 });
 
 searchHistoryEl.addEventListener("click", function(event){
+    // Remove display-none classes on hidden sections
     CurrentWeather.removeAttribute("class", "d-none");
     fiveDayContainer.removeAttribute("class","d-none");
     searchHistoryContainer.removeAttribute("class","d-none");
+    // Access weather forecast from saved cities in local Storage
     fetchWeatherForHistory(event);
 });
 
